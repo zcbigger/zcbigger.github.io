@@ -13,7 +13,7 @@
 
 
 
-<title>陪室友出门 | Hi,there</title>
+<title>glm6b | Hi,there</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">陪室友出门</h1>
+            <h1 class="post-title">glm6b</h1>
             
                 <div class="post-meta">
                     
@@ -205,7 +205,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">October 19, 2023&nbsp;&nbsp;22:00:51</a>
+                        Date: <a href="#">October 20, 2023&nbsp;&nbsp;16:58:16</a>
                         </span>
                     
                     
@@ -214,10 +214,17 @@
         </header>
 
         <div class="post-content">
-            <h3 id="陪室友去认定他的教师资格证了"><a href="#陪室友去认定他的教师资格证了" class="headerlink" title="陪室友去认定他的教师资格证了"></a>陪室友去认定他的教师资格证了</h3><p>然后回来又玩了玩Falcon7B</p>
-<h3 id="感觉小模型确实不太聪明。。。"><a href="#感觉小模型确实不太聪明。。。" class="headerlink" title="感觉小模型确实不太聪明。。。"></a>感觉小模型确实不太聪明。。。</h3><p>双十一了不知道该买什么显卡，4090好贵。。。</p>
-<p>4060ti 16G的算了</p>
-<p>要不就锻炼过的3090。。。</p>
+            <h3 id="又用了一下Chatglm-6b，感觉它中文能力还是可以的"><a href="#又用了一下Chatglm-6b，感觉它中文能力还是可以的" class="headerlink" title="又用了一下Chatglm-6b，感觉它中文能力还是可以的"></a>又用了一下Chatglm-6b，感觉它中文能力还是可以的</h3><p>可是显存不够，只能白嫖一下Colab</p>
+<p>Colab demo在<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1JuUCZBG6FyJcAQr1jw51Svk7pbSpptT0?usp=sharing">这里</a></p>
+<p><img src="/2023/10/20/glm6b/image.png" alt="img1"></p>
+<p>按照官方github的指引来：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!git clone https://github.com/THUDM/ChatGLM2-6B</span><br><span class="line">cd ChatGLM2-6B</span><br><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<p>如果用网页形式的话里面读取模型的<code>.cuda()</code>要改成<code>device=&#39;cuda&#39;</code>，不然会爆内存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModel</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>)</span><br><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">model = model.<span class="built_in">eval</span>()</span><br></pre></td></tr></table></figure>
+<p>然后是一个简单的循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">history = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  text = <span class="built_in">input</span>(<span class="string">&quot;用户：&quot;</span>)</span><br><span class="line">  response, history = model.chat(tokenizer, text, history=history)</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;ChatGLM：&quot;</span> + response)</span><br></pre></td></tr></table></figure>
+
+<p>大概就是这样了，模型下载到网盘上就不用每次下载了，以后有时间再看吧</p>
 
         </div>
 
@@ -249,10 +256,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2023/10/20/glm6b/">glm6b</a>
             
-            
-            <a class="next" rel="next" href="/2023/10/16/%E6%91%B8%E9%B1%BC/">摸鱼</a>
+            <a class="next" rel="next" href="/2023/10/19/%E9%99%AA%E5%AE%A4%E5%8F%8B%E5%87%BA%E9%97%A8/">陪室友出门</a>
             
         </section>
 
