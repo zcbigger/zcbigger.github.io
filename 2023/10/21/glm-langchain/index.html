@@ -13,7 +13,7 @@
 
 
 
-<title>glm6b | Hi,there</title>
+<title>使用colab得到chatglm的公共url | Hi,there</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">glm6b</h1>
+            <h1 class="post-title">使用colab得到chatglm的公共url</h1>
             
                 <div class="post-meta">
                     
@@ -205,7 +205,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">October 20, 2023&nbsp;&nbsp;16:58:16</a>
+                        Date: <a href="#">October 21, 2023&nbsp;&nbsp;19:39:25</a>
                         </span>
                     
                     
@@ -214,17 +214,13 @@
         </header>
 
         <div class="post-content">
-            <h3 id="又用了一下Chatglm-6b，感觉它中文能力还是可以的"><a href="#又用了一下Chatglm-6b，感觉它中文能力还是可以的" class="headerlink" title="又用了一下Chatglm-6b，感觉它中文能力还是可以的"></a>又用了一下Chatglm-6b，感觉它中文能力还是可以的</h3><p>可是显存不够，只能白嫖一下Colab</p>
-<p>Colab demo在<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1JuUCZBG6FyJcAQr1jw51Svk7pbSpptT0?usp=sharing">这里</a></p>
-<p><img src="/2023/10/20/glm6b/image.png" alt="img1"></p>
-<p>按照官方github的指引来：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!git clone https://github.com/THUDM/ChatGLM2-6B</span><br><span class="line">cd ChatGLM2-6B</span><br><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
-<p>如果用网页形式的话里面读取模型的<code>.cuda()</code>要改成<code>device=&#39;cuda&#39;</code>，不然会爆内存</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModel</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>)</span><br><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">model = model.<span class="built_in">eval</span>()</span><br></pre></td></tr></table></figure>
-<p>然后是一个简单的循环</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">history = []</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">  text = <span class="built_in">input</span>(<span class="string">&quot;用户：&quot;</span>)</span><br><span class="line">  response, history = model.chat(tokenizer, text, history=history)</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;ChatGLM：&quot;</span> + response)</span><br></pre></td></tr></table></figure>
-
-<p>大概就是这样了，模型下载到网盘上就不用每次下载了，以后有时间再看吧</p>
+            <h3 id="今天想用一下glm的api"><a href="#今天想用一下glm的api" class="headerlink" title="今天想用一下glm的api"></a>今天想用一下glm的api</h3><p>可是Colab的ip不知道是什么，所以用了ngrok</p>
+<p>把原文件api.py最后<code>if __name__ == &#39;__main__&#39;:</code>下面几行改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>)</span><br><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;THUDM/chatglm2-6b&quot;</span>, trust_remote_code=<span class="literal">True</span>, device=<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line"><span class="comment"># 多显卡支持，使用下面三行代替上面两行，将num_gpus改为你实际的显卡数量</span></span><br><span class="line"><span class="comment"># model_path = &quot;THUDM/chatglm2-6b&quot;</span></span><br><span class="line"><span class="comment"># tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)</span></span><br><span class="line"><span class="comment"># model = load_model_on_gpus(model_path, num_gpus=2)</span></span><br><span class="line">model.<span class="built_in">eval</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> nest_asyncio</span><br><span class="line"><span class="keyword">from</span> pyngrok <span class="keyword">import</span> ngrok</span><br><span class="line"><span class="keyword">import</span> uvicorn</span><br><span class="line">ngrok_tunnel = ngrok.connect(<span class="number">8000</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Public URL:&#x27;</span>, ngrok_tunnel.public_url)</span><br><span class="line">nest_asyncio.apply()</span><br><span class="line"><span class="comment"># uvicorn.run(app, host=&#x27;0.0.0.0&#x27;, port=6006, workers=1)</span></span><br><span class="line">uvicorn.run(app, port=<span class="number">8000</span>, workers=<span class="number">1</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>!python api.py</code>就可以得到Public URL在本地使用了</p>
+<p><img src="/2023/10/21/glm-langchain/image-1.png" alt="Alt text"></p>
+<p>本地代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chat</span>(<span class="params">promt, history</span>):</span><br><span class="line">    resp = requests.post(</span><br><span class="line">        url=<span class="string">&#x27;https://409e-34-83-139-200.ngrok.io&#x27;</span>,</span><br><span class="line">        json=&#123;<span class="string">&#x27;prompt&#x27;</span>: promt, <span class="string">&quot;history&quot;</span>: history&#125;,</span><br><span class="line">        headers=&#123;<span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json;charset=utf-8&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> resp.json()[<span class="string">&#x27;response&#x27;</span>], resp.json()[<span class="string">&#x27;history&#x27;</span>]</span><br><span class="line"></span><br><span class="line">history = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    response, history = chat(<span class="built_in">input</span>(<span class="string">&quot;Q:&quot;</span>), history)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;A:&quot;</span>, response)</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -256,10 +252,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2023/10/21/glm-langchain/">使用colab得到chatglm的公共url</a>
             
-            
-            <a class="next" rel="next" href="/2023/10/19/%E9%99%AA%E5%AE%A4%E5%8F%8B%E5%87%BA%E9%97%A8/">陪室友出门</a>
+            <a class="next" rel="next" href="/2023/10/20/glm6b/">glm6b</a>
             
         </section>
 
